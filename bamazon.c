@@ -32,13 +32,14 @@ int read_db(char *filename) {
         sscanf(buffer, "%d %s %s %c %d %lf %d", &db[i]->itemnum, category, db[i]->name, &db[i]->size, &db[i]->quantity, &db[i]->cost, &db[i]->onsale);
 
         // Add enumeration to item's internal db via case insensitive string comparison.
-        if (strcmpi(category, "clothes") == 0) {
+        // Note: strcmpi is not part of POSIX
+        if (strcmp(category, "clothes") == 0) {
             db[i]->category = 0;
-        } else if (strcmpi(category, "electronics") == 0) {
+        } else if (strcmp(category, "electronics") == 0) {
             db[i]->category = 1;
-        } else if (strcmpi(category, "tools") == 0) {
+        } else if (strcmp(category, "tools") == 0) {
             db[i]->category = 2;
-        } else if (strcmpi(category, "toys") == 0) {
+        } else if (strcmp(category, "toys") == 0) {
             db[i]->category = 3;
         }
 
