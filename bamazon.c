@@ -77,41 +77,86 @@ int write_db(char *filename) {
     return 0;
 }
 
+// Prints all items in the internal data structure to the terminal following specific format
 void show_items() {
-
+    char *types[4] = {"clothes", "electronics", "tools", "toys"};
+    for (int i = 0; i < num_items; i++) {
+        printf("%d %s %s %c %d %lf %d\n", db[i]->itemnum, types[db[i]->category], db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
+    }
 }
 
 int sprint_item(char *s, item *c) {
     return 0;
 }
 
-// Commented out to test other functions
-//item *find_item_num(int itemnum) {
-//    return NULL;
-//}
+item *find_item_num(int itemnum) {
+    for (int i = 0; i < num_items; i++) {
+        if (db[i]->itemnum == itemnum) {
+            return db[i];
+        }
+    }
+    return 0;
+}
 
 int find_item_str(item **items, char *s) {
     return 0;
 }
 
-//item *add_item(int itemnum, char *category, char *name, char size, int quantity, double cost, int onsale) {
-//    return NULL;
-//}
+// bit fields for enums? idea maybe.
+item *add_item(int itemnum, char *category, char *name, char size, int quantity, double cost, int onsale) {
+    int type = -1;
+    char *types[4] = {"clothes", "electronics", "tools", "toys"};
+
+    for (int i = 0; i < 4; i++) {
+        if (strcmp(category, types[i]) == 0) {
+            type = i;
+        }
+    }
+
+    // When an item with itemnum already exists in the database, just update it
+    if (find_item_num(itemnum) != NULL) {
+        return update_item(itemnum, type, name, size, quantity, cost, onsale);
+    }
+
+    // Create a new item if it doesn't already exist.
+    item *new_item = malloc(sizeof(item));
+
+    // Add to database
+    db[num_items++] = new_item;
+
+    // Update its values
+    new_item->itemnum = itemnum;
+    return update_item(itemnum, type, name, size, quantity, cost, onsale);
+}
 
 //item *update_item(int itemnum, category category, char *name, char size, double cost, int onsale) {
 //    return NULL;
 //}
 
 int get_category(item **items, category c) {
-    return 0;
+    int count = 0;
+    for (int i = 0; i < num_items; i++) {
+        if (db[i]->category == c) {
+            items[count++] = db[i];
+        }
+    }
+    return count;
 }
 
 int get_category_size(item **items, category c, char size) {
     return 0;
 }
 
+// Selects all items matching a specific category, costing less than cost, and fills in the item items array.
+// Returns the number of items place in the array.
 int get_category_cost(item **items, category c, double cost) {
-    return 0;
+    int count = 0;
+    for (int i = 0; i < num_items; i++) {
+        if (db[i]->category == c && db[i]->cost < cost) {
+            items[count++] = db[i];
+        }
+    }
+    return count;
 }
 
 //item *purchase_item(int itemnum) {
@@ -122,8 +167,34 @@ int checkout(char **receipt) {
     return 0;
 }
 
+// Returns the selected item and deletes the item from the internal db, returning 0 upon failure.
+item *delete_item(int itemnum) {
+    item *selection;
+    int position = 0;
+    // Gets the position of the item matching the parameter.
+    while (position < num_items) {
+        if (db[position]->itemnum == itemnum) {
+            // Store the address of the item for returning and update number of items in db.
+            selection = db[position];
+            num_items--;
+
+            // When selected shift to the left the rest of the items in the internal db to fill gap in.
+            while (position < num_items) {
+                db[position] = db[position + 1];
+                position++;
+            }
+            return selection;
+        }
+        position++;
+    }
+    return 0;
+}
+
+// Converts the enum category type returning its string representation.
 char *category_to_str(category c) {
-    return NULL;
+    // Use enum treated as int to select from array of strings representing those enums, allocate memory for returning.
+    char *types[4] = {"clothes", "electronics", "tools", "toys"};
+    return strcpy(malloc(strlen(types[c]) + 1), types[c]);
 }
 
 category str_to_category(char *s) {
