@@ -79,9 +79,8 @@ int write_db(char *filename) {
 
 // Prints all items in the internal data structure to the terminal following specific format
 void show_items() {
-    char *types[4] = {"clothes", "electronics", "tools", "toys"};
     for (int i = 0; i < num_items; i++) {
-        printf("%d %s %s %c %d %lf %d\n", db[i]->itemnum, types[db[i]->category], db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
+        printf("%d %s %s %c %d %lf %d\n", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
     }
 }
 
@@ -133,14 +132,10 @@ item *add_item(int itemnum, char *category, char *name, char size, int quantity,
 //    return NULL;
 //}
 
+// Selects all items matching a specific category and fills in the item items array.
+// Returns the number of items placed in the array.
 int get_category(item **items, category c) {
-    int count = 0;
-    for (int i = 0; i < num_items; i++) {
-        if (db[i]->category == c) {
-            items[count++] = db[i];
-        }
-    }
-    return count;
+    return get_category_cost(items, c, -1.0); // Calling with cost invalid (-1) just filters by category c.
 }
 
 int get_category_size(item **items, category c, char size) {
@@ -148,12 +143,19 @@ int get_category_size(item **items, category c, char size) {
 }
 
 // Selects all items matching a specific category, costing less than cost, and fills in the item items array.
-// Returns the number of items place in the array.
+// Returns integer value of number of elements in item array.
 int get_category_cost(item **items, category c, double cost) {
     int count = 0;
     for (int i = 0; i < num_items; i++) {
-        if (db[i]->category == c && db[i]->cost < cost) {
-            items[count++] = db[i];
+        // Filter by category.
+        if (db[i]->category == c) {
+            // Filter by cost if cost isn't invalid (-1).
+            if (db[i]->cost < cost && cost != -1.0) {
+                items[count++] = db[i];
+            } else if (cost == -1.0){
+                // Invalid cost sorts by just category.
+                items[count++] = db[i];
+            }
         }
     }
     return count;
