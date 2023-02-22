@@ -12,11 +12,11 @@
 - [ ] category str_to_category(char *s);
 
 ## Christian
-- [ ] int read_db(char *filename);
+- [X] int read_db(char *filename);
 - [ ] void show_items();
 - [ ] item *find_item_num(int itemnum);
 - [ ] item *add_item(int itemnum, char *category, char *name, char size, int quantity, double cost, int onsale);
 - [ ] int get_category(item **items, category c);
 - [ ] int get_category_cost(item **items, category c, double cost);
-- [ ] item *delete_item(int itemnum);
-- [ ] char *category_to_str(category c);
+- [X] item *delete_item(int itemnum);
+- [X] char *category_to_str(category c);
