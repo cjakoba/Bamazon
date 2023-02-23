@@ -64,7 +64,7 @@ int write_db(char *filename) {
     }
     // Prints the items to the file
     for(int i =0; i<num_items; i++){
-        fprintf(out, "%d %s %s %c %d %lf %d\n", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale )
+        fprintf(out, "%d %s %s %c %d %lf %d\n", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale );
     }
     fclose(out);
     return 0;
@@ -72,23 +72,26 @@ int write_db(char *filename) {
 
 // Prints all items in the internal data structure to the terminal following specific format
 void show_items() {
+    
+        char s[100];
     for (int i = 0; i < num_items; i++) {
-        char[MAX_ITEM_CHARS] s;
         sprint_item(s,db[i]);
         printf("%s\n",s);
+        
     }
 }
 
 int sprint_item(char *s, item *c) {
 // Adds the elements of the given item to the given string     
-    int i = sprintf(s,"%d %s %s %c %d %lf %d", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale)
+    printf("t");
+   int i = sprintf(s,"%d %s %s %c %d %lf %d", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
 //removes hyphens
     for (int j = 0; j < i; j++) {
     if (s[j] == '_') {
-         s[j] = ' ';  
+        s[j] = ' ';  
     }
     }
-    return i
+    return i;
 }
 
 item *find_item_num(int itemnum) {
@@ -102,7 +105,7 @@ item *find_item_num(int itemnum) {
 
 int find_item_str(item **items, char *s) {
     int itemnum=0;
-    int len = strlen(s)
+    int len = strlen(s);
     
     return itemnum;
 }
@@ -134,9 +137,9 @@ item *add_item(int itemnum, char *category, char *name, char size, int quantity,
     return update_item(itemnum, type, name, size, quantity, cost, onsale);
 }
 
-//item *update_item(int itemnum, category category, char *name, char size, double cost, int onsale) {
-//    return NULL;
-//}
+item *update_item(int itemnum, category category, char *name, char size, int quantity, double cost, int onsale) {
+    return NULL;
+}
 
 // Selects all items matching a specific category and fills in the item items array.
 // Returns the number of items placed in the array.
@@ -210,9 +213,10 @@ category str_to_category(char *s) {
         return 0;
     } else if (strcmp(s, "electronics") == 0) {
         return 1;
-    } else if (strcmp(category, "tools") == 0) {
-        return 2
-    } else if (strcmp(category, "toys") == 0) {
-        return 3
+    } else if (strcmp(s, "tools") == 0) {
+        return 2;
+    } else if (strcmp(s, "toys") == 0) {
+        return 3;
     }
+}
 
