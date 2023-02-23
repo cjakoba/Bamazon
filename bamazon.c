@@ -42,14 +42,6 @@ int read_db(char *filename) {
         } else if (strcmp(category, "toys") == 0) {
             db[i]->category = 3;
         }
-
-        // Removal of underscores from names
-        for (int j = 0; j < MAX_ITEMS_CHARS; j++) {
-            if (db[i]->name[j] == '_') {
-                db[i]->name[j] = ' ';
-            }
-        }
-
         // Final result of internal database, to be removed before turning project in.
         printf("%d %d %s %c %d %lf %d\n", db[i]->itemnum, db[i]->category, db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
     }
@@ -70,9 +62,10 @@ int write_db(char *filename) {
         fprintf(stderr, "Error: Can't open %s for write operation.\n", filename);
         return -1;
     }
-
-    // TODO: write db into file. Names with spaces to have underscores placed. Category to switch from enum to string.
-
+    // Prints the items to the file
+    for(int i =0; i<num_items; i++){
+        fprintf(out, "%d %s %s %c %d %lf %d\n", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale )
+    }
     fclose(out);
     return 0;
 }
@@ -80,12 +73,22 @@ int write_db(char *filename) {
 // Prints all items in the internal data structure to the terminal following specific format
 void show_items() {
     for (int i = 0; i < num_items; i++) {
-        printf("%d %s %s %c %d %lf %d\n", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
+        char[MAX_ITEM_CHARS] s;
+        sprint_item(s,db[i]);
+        printf("%s\n",s);
     }
 }
 
 int sprint_item(char *s, item *c) {
-    return 0;
+// Adds the elements of the given item to the given string     
+    int i = sprintf(s,"%d %s %s %c %d %lf %d", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale)
+//removes hyphens
+    for (int j = 0; j < i; j++) {
+    if (s[j] == '_') {
+         s[j] = ' ';  
+    }
+    }
+    return i
 }
 
 item *find_item_num(int itemnum) {
@@ -98,7 +101,10 @@ item *find_item_num(int itemnum) {
 }
 
 int find_item_str(item **items, char *s) {
-    return 0;
+    int itemnum=0;
+    int len = strlen(s)
+    
+    return itemnum;
 }
 
 // bit fields for enums? idea maybe.
@@ -200,6 +206,13 @@ char *category_to_str(category c) {
 }
 
 category str_to_category(char *s) {
-    return electronics;
-}
+    if (strcmp(s, "clothes") == 0) {
+        return 0;
+    } else if (strcmp(s, "electronics") == 0) {
+        return 1;
+    } else if (strcmp(category, "tools") == 0) {
+        return 2
+    } else if (strcmp(category, "toys") == 0) {
+        return 3
+    }
 
