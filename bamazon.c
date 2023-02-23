@@ -84,7 +84,7 @@ void show_items() {
 
 int sprint_item(char *s, item *c) {
 // Adds the elements of the given item to the given string     
-   int i = sprintf(s,"%d %s %s %c %d %lf %d", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
+   int i = sprintf(s,"%d %s %s %c %d %lf %d", c->itemnum, category_to_str(c->category), c->name, c->size, c->quantity, c->cost, c->onsale);
 //removes hyphens
     for (int j = 0; j < i; j++) {
     if (s[j] == '_') {
@@ -106,7 +106,26 @@ item *find_item_num(int itemnum) {
 int find_item_str(item **items, char *s) {
     int itemnum=0;
     int len = strlen(s);
-    
+    //loops through items
+    for (int i=0;i<num_items;i++ ){
+        //only checks if the string is shorter than the name
+        if(strlen(db[i]->name)>=len){
+        //loop through characters in item name = to the characters in the item name-the length of the string
+        for (int j=0;j<=strlen(db[i]->name)-len ;j++ ){
+            char ss[len];
+            //creates a string that is a substring of the name
+            for (int k=0;k<len;k++ ){
+                ss[k]=db[i]->name[j+k];
+            }
+            //compares the ss of the name to the passed in string
+            if (strcmp(ss,s)==0){
+            *items[itemnum]=*db[i];
+            itemnum++;
+            break;
+            }
+        }
+        }
+    }
     return itemnum;
 }
 
