@@ -73,17 +73,17 @@ int write_db(char *filename) {
 // Prints all items in the internal data structure to the terminal following specific format
 void show_items() {
     
-        char s[100];
     for (int i = 0; i < num_items; i++) {
+        char *s=malloc(100);
         sprint_item(s,db[i]);
         printf("%s\n",s);
+        free(s);
         
     }
 }
 
 int sprint_item(char *s, item *c) {
 // Adds the elements of the given item to the given string     
-    printf("t");
    int i = sprintf(s,"%d %s %s %c %d %lf %d", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
 //removes hyphens
     for (int j = 0; j < i; j++) {
