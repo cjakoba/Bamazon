@@ -14,13 +14,13 @@ int main(int argc, char **argv) {
 
     printf("Enter user name: ");
     char s[15];
-    char sel[150];
     scanf("%s", s);
 
     //bamazon user
     if (strcmp(s, "bamazon") == 0) {
         int b = 1;
         while (b) {
+            char sel[150];
             printf("Welcome to Bamazon!\nPlease choose from the following commands:\nadd itemnum itemcategory itemname size quantity cost onsale\ndelete itemnum\nupdatecost itemnum cost\nupdatequantity itemnum quantity\nsave\nquit\nshowitems\nshowcategory category\nshowcategorycost category cost\nshowcategorysize category size\npurchase itemnum\nexit\n");
             fflush(stdin);
             fgets(sel, 150, stdin);
@@ -41,13 +41,14 @@ int main(int argc, char **argv) {
                 if (delete_item(itemnum) == 0) {
                     fprintf(stderr, "Invalid itemnum!\n");
                 }
-            } else if (strcmp(sel, "updatecost") == 0) {
+            } else if (strstr(sel, "updatecost")) {
                 // Update the cost of an item in the database
                 int itemnum;
                 double cost;
-                scanf("%d %lf", &itemnum, &cost);
-                if (find_item_num(itemnum) == 0) {
-                    printf("Invalid itemnum!\n");
+                sscanf(sel, "updatecost %d %lf", &itemnum, &cost);
+
+                if (find_item_num(itemnum) == NULL) {
+                    fprintf(stderr, "Invalid itemnum!\n");
                 } else {
                     item *cur = find_item_num(itemnum);
                     cur->cost = cost;
