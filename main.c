@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
 
     printf("Enter user name:");
     char s[15];
+    char sel[150];
     scanf("%s", s);
 
     //bamazon user
@@ -21,7 +22,7 @@ int main(int argc, char **argv) {
         int b = 1;
         while (b) {
             printf("Welcome to Bamazon!\nPlease choose from the following commands:\nadd itemnum itemcategory itemname size quantity cost onsale\ndelete itemnum\nupdatecost itemnum cost\nupdatequantity itemnum quantity\nsave\nquit\nshowitems\nshowcategory category\nshowcategorycost category cost\nshowcategorysize category size\npurchase itemnum\nexit\n");
-            char sel[150];
+            fflush(stdin);
             fgets(sel, 150, stdin);
 
             if (strcmp(sel, "add") == 0) {
@@ -60,10 +61,10 @@ int main(int argc, char **argv) {
             } else if (strcmp(sel, "save") == 0) {
                 // Save the changes to the database
                 write_db("test.txt");
-            } else if (strcmp(sel, "quit") == 0) {
+            } else if (strstr(sel, "quit")) {
                 // Quit the program without saving changes to the database
-                b = 0;
-            } else if (strcmp(sel, "showitems") == 0) {
+                return 0;
+            } else if (strstr(sel, "showitems")) {
                 // Show all items in the database
                 show_items();
             } else if (strcmp(sel, "showcategory") == 0) {
@@ -83,9 +84,8 @@ int main(int argc, char **argv) {
                 scanf("%d", &itemnum);
                 char *receipt[150];
                 checkout(receipt);
-            } else if (strcmp(sel, "exit") == 0) {
+            } else if (strstr(sel, "exit")) {
                 // Exit the program and save changes to the database
-                printf("TEST!\n");
                 write_db("test.txt");
                 return 0;
             }
