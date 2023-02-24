@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
         exit(-1);
     }
 
-    printf("Enter user name:");
+    printf("Enter user name: ");
     char s[15];
     char sel[150];
     scanf("%s", s);
@@ -25,12 +25,13 @@ int main(int argc, char **argv) {
             fflush(stdin);
             fgets(sel, 150, stdin);
 
-            if (strcmp(sel, "add") == 0) {
+            if (strstr(sel, "add")) {
                 // Add an item to the database
                 int itemnum, onsale, quantity;
                 char category[15], name[25], size;
                 double cost;
-                scanf("%d %s %s %c %d %lf %d", &itemnum, category, name, &size, &quantity, &cost, &onsale);
+
+                sscanf(sel, "add %d %s %s %c %d %lf %d", &itemnum, category, name, &size, &quantity, &cost, &onsale);
                 add_item(itemnum, category, name, size, quantity, cost, onsale);
             } else if (strcmp(sel, "delete") == 0) {
                 // Delete an item from the database
@@ -88,6 +89,8 @@ int main(int argc, char **argv) {
                 // Exit the program and save changes to the database
                 write_db("test.txt");
                 return 0;
+            } else {
+                fprintf(stderr, "Invalid command!\n");
             }
         }
     } else if (strcmp(s, "shopper") == 0) {
