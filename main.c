@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "bamazon.h"
 
 int main(int argc, char **argv) {
@@ -58,8 +59,7 @@ int main(int argc, char **argv) {
         show_items();
     }else if(strcmp(sel,"showcategory")==0) {
         // Show items of a specific category in the database
-        // Parameters: category
-        // Example usage: showcategory Clothing
+        
     }else if(strcmp(sel,"showcategorycost")==0) {
         // Show items of a specific category with cost less than a given value
         // Parameters: category, cost
@@ -70,8 +70,11 @@ int main(int argc, char **argv) {
         // Example usage: showcategorysize Clothing L
     }else if(strcmp(sel,"purchase")==0) {
         // Purchase an item from the database
-        // Parameters: itemnum
-        // Example usage: purchase 123
+        int itemnum;
+        scanf("%d", &itemnum);
+        purchase_item(itemnum);
+        char **receipt=malloc(40);
+        checkout(receipt);
     }else if(strcmp(sel,"exit")==0) {
         // Exit the program and save changes to the database
         write_db("test.txt");

@@ -190,13 +190,27 @@ int get_category_cost(item **items, category c, double cost) {
     }
     return count;
 }
-
-//item *purchase_item(int itemnum) {
-//    return NULL;
-//}
-
-int checkout(char **receipt) {
+//removes one from inventory, and adds item to urchased items
+item *purchase_item(int itemnum) {
+    if(find_item_num(itemnum)!=0){
+    item *cur = find_item_num(itemnum);
+    if(cur->quantity<=0){
     return 0;
+    }
+    cur->quantity--;
+    purchased[purchased_items]=cur;
+    purchased_items++;
+    return cur;
+    }
+    return 0;
+}
+//prints item to recipt, sets purchased items to 0
+int checkout(char **receipt) {
+    for (int i=0; i<purchased_items;i++){
+    sprint_item(receipt[i], purchased[i]);
+    }
+    purchased_items=0;
+    return num_items;
 }
 
 // Returns the selected item and deletes the item from the internal db, returning 0 upon failure.
