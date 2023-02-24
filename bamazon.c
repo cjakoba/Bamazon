@@ -72,24 +72,22 @@ int write_db(char *filename) {
 
 // Prints all items in the internal data structure to the terminal following specific format
 void show_items() {
-    
     for (int i = 0; i < num_items; i++) {
-        char *s=malloc(100);
+        char *s = malloc(100);
         sprint_item(s,db[i]);
         printf("%s\n",s);
         free(s);
-        
     }
 }
 
 int sprint_item(char *s, item *c) {
-// Adds the elements of the given item to the given string     
-   int i = sprintf(s,"%d %s %s %c %d %lf %d", db[i]->itemnum, category_to_str(db[i]->category), db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
-//removes hyphens
+    // Adds the elements of the given item to the given string
+    int i = sprintf(s,"%d %s %s %c %d %lf %d", c->itemnum, category_to_str(c->category), c->name, c->size, c->quantity, c->cost, c->onsale);
+    //removes hyphens
     for (int j = 0; j < i; j++) {
-    if (s[j] == '_') {
-        s[j] = ' ';  
-    }
+        if (s[j] == '_') {
+            s[j] = ' ';
+        }
     }
     return i;
 }
@@ -122,8 +120,17 @@ item *add_item(int itemnum, char *category, char *name, char size, int quantity,
     }
 
     // When an item with itemnum already exists in the database, just update it
-    if (find_item_num(itemnum) != NULL) {
-        return update_item(itemnum, type, name, size, quantity, cost, onsale);
+    item *selected = find_item_num(itemnum);
+    if (selected != NULL) {
+
+        selected->itemnum = itemnum;
+        selected->category = str_to_category(category);
+        strcpy(selected->name, name);
+        selected->size = size;
+        selected->quantity = quantity;
+        selected->cost = cost;
+        selected->onsale = onsale;
+        return selected;
     }
 
     // Create a new item if it doesn't already exist.
@@ -134,11 +141,13 @@ item *add_item(int itemnum, char *category, char *name, char size, int quantity,
 
     // Update its values
     new_item->itemnum = itemnum;
-    return update_item(itemnum, type, name, size, quantity, cost, onsale);
-}
-
-item *update_item(int itemnum, category category, char *name, char size, int quantity, double cost, int onsale) {
-    return NULL;
+    new_item->category = str_to_category(category);
+    strcpy(new_item->name, name);
+    new_item->size = size;
+    new_item->quantity = quantity;
+    new_item->cost = cost;
+    new_item->onsale = onsale;
+    return new_item;
 }
 
 // Selects all items matching a specific category and fills in the item items array.
@@ -217,6 +226,8 @@ category str_to_category(char *s) {
         return 2;
     } else if (strcmp(s, "toys") == 0) {
         return 3;
+    } else {
+        return -1;
     }
 }
 
