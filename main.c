@@ -33,11 +33,14 @@ int main(int argc, char **argv) {
 
                 sscanf(sel, "add %d %s %s %c %d %lf %d", &itemnum, category, name, &size, &quantity, &cost, &onsale);
                 add_item(itemnum, category, name, size, quantity, cost, onsale);
-            } else if (strcmp(sel, "delete") == 0) {
+            } else if (strstr(sel, "delete")) {
                 // Delete an item from the database
                 int itemnum;
-                scanf("%d", &itemnum);
-                if (delete_item(itemnum) == 0) { printf("Invalid itemnum!\n"); }
+                sscanf(sel, "%d", &itemnum);
+
+                if (delete_item(itemnum) == 0) {
+                    fprintf(stderr, "Invalid itemnum!\n");
+                }
             } else if (strcmp(sel, "updatecost") == 0) {
                 // Update the cost of an item in the database
                 int itemnum;
