@@ -13,28 +13,40 @@ int main(int argc, char **argv) {
     while(b){
     printf("Welcome to Bamazon!\nPlease choose from the following commands:\nadd itemnum itemcategory itemname size quantity cost onsale\ndelete itemnum\nupdatecost itemnum cost\nupdatequantity itemnum quantity\nsave\nquit\nshowitems\nshowcategory category\nshowcategorycost category cost\nshowcategorysize category size\npurchase itemnum\nexit\n");
     char sel[20];
-    char args[100];
     scanf("%s",sel);
     if(strcmp(sel,"add")==0) {
         // Add an item to the database
     int itemnum, onsale, quantity;
-    char *category,*name,size;
+    char category[15],name[25],size;
     double cost;
     scanf("%d %s %s %c %d %lf %d",&itemnum, category, name, &size, &quantity, &cost, &onsale);
     add_item(itemnum, category, name, size, quantity, cost, onsale);
     }else if(strcmp(sel,"delete")==0) {
         // Delete an item from the database
-        // Parameters: itemnum
-        // Example usage: deleteitemnum 123
-        
+        int itemnum;
+        scanf("%d", &itemnum);
+        if(delete_item(itemnum)==0){printf("Invalid itemnum!\n");}    
     }else if(strcmp(sel,"updatecost")==0) {
         // Update the cost of an item in the database
-        // Parameters: itemnum, cost
-        // Example usage: updatecostitemnumcost 123 19.99
-        // Update the quantity of an item in the database
+        int itemnum;
+        double cost; 
+        scanf("%d %lf", &itemnum, &cost);
+        if (find_item_num(itemnum)==0){
+        printf("Invalid itemnum!\n");
+        }else{
+        item *cur= find_item_num(itemnum);
+        cur->cost=cost;
+        }
     }else if(strcmp(sel,"updatequantity")==0) {
-        // Parameters: itemnum, quantity
-        // Example usage: updatequantity 123 5
+        // Update the quantity of an item in the database
+        int itemnum,quantity; 
+        scanf("%d %d", &itemnum, &quantity);
+        if (find_item_num(itemnum)==0){ 
+        printf("Invalid itemnum!/n");
+        }else{
+          item *cur= find_item_num(itemnum);
+          cur->quantity=quantity;
+        }
     }else if(strcmp(sel,"save")==0) {
         // Save the changes to the database
         write_db("test.txt");
@@ -78,12 +90,9 @@ int main(int argc, char **argv) {
 }
 }
 }
-
-else if(strcmp(s,"shopper")==0){
 //TODO:copy shopper only code here when complete 
 }else{
 printf("Invalid user!");
-}
 }
 return 0;
 }
