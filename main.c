@@ -7,76 +7,66 @@ int main(int argc, char **argv) {
     printf("Enter user name:");
     char s[20];
     scanf("%s",s);
-
+    //bamazon user
     if (strcmp(s,"bamazon")==0){
     int b=1;
     while(b){
-    printf("Options");
-    int sel;
-    scanf("%d",&sel);
-    switch(sel) {
-    case 1:
+    printf("Welcome to Bamazon!\nPlease choose from the following commands:\nadd itemnum itemcategory itemname size quantity cost onsale\ndelete itemnum\nupdatecost itemnum cost\nupdatequantity itemnum quantity\nsave\nquit\nshowitems\nshowcategory category\nshowcategorycost category cost\nshowcategorysize category size\npurchase itemnum\nexit\n");
+    char sel[20];
+    char args[100];
+    scanf("%s",sel);
+    if(strcmp(sel,"add")==0) {
         // Add an item to the database
-        // Parameters: itemnum, category, itemname, size, quantity, cost, onsale
-        // Example usage: additemnumtemcategoryitemnamesizequantitycostonsale 123 Clothing Shirt L 10 29.99 1
-        
-        break;
-    case 2:
+    int itemnum, onsale, quantity;
+    char *category,*name,size;
+    double cost;
+    scanf("%d %s %s %c %d %lf %d",&itemnum, category, name, &size, &quantity, &cost, &onsale);
+    add_item(itemnum, category, name, size, quantity, cost, onsale);
+    }else if(strcmp(sel,"delete")==0) {
         // Delete an item from the database
         // Parameters: itemnum
         // Example usage: deleteitemnum 123
-        break;
-    case 3:
+        
+    }else if(strcmp(sel,"updatecost")==0) {
         // Update the cost of an item in the database
         // Parameters: itemnum, cost
         // Example usage: updatecostitemnumcost 123 19.99
-        break;
-    case 4:
         // Update the quantity of an item in the database
+    }else if(strcmp(sel,"updatequantity")==0) {
         // Parameters: itemnum, quantity
         // Example usage: updatequantity 123 5
-        break;
-    case 5:
+    }else if(strcmp(sel,"save")==0) {
         // Save the changes to the database
         write_db("test.txt");
-        break;
-    case 6:
+    }else if(strcmp(sel,"quit")==0) {
         // Quit the program without saving changes to the database
         b=0;
-        break;
-    case 7:
+    }else if(strcmp(sel,"showitems")==0) {
         // Show all items in the database
         show_items();
-        break;
-    case 8:
+    }else if(strcmp(sel,"showcategory")==0) {
         // Show items of a specific category in the database
         // Parameters: category
         // Example usage: showcategory Clothing
-        break;
-    case 9:
+    }else if(strcmp(sel,"showcategorycost")==0) {
         // Show items of a specific category with cost less than a given value
         // Parameters: category, cost
         // Example usage: showcategorycost Clothing 50.0
-        break;
-    case 10:
+    }else if(strcmp(sel,"showcategorysize")==0) {
         // Show items of a specific category with a specific size
         // Parameters: category, size
         // Example usage: showcategorysize Clothing L
-        break;
-    case 11:
+    }else if(strcmp(sel,"purchase")==0) {
         // Purchase an item from the database
         // Parameters: itemnum
         // Example usage: purchase 123
-        break;
-    case 12:
+    }else if(strcmp(sel,"exit")==0) {
         // Exit the program and save changes to the database
         write_db("test.txt");
         b=0;
-        break;
-    default:
-        // Invalid command
+        
+    }else{// Invalid command
         printf("Invalid command!\n");
-        break;
     // TODO: check to see if user input is even there from terminal, input would be like ./bamazon bamdata.txt
     // Where bamdata.txt is considered the 1th argument (argv[1]).
     // if not there, terminate program with error asking for a filename

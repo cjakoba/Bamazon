@@ -42,15 +42,8 @@ int read_db(char *filename) {
         } else if (strcmp(category, "toys") == 0) {
             db[i]->category = 3;
         }
-        // Final result of internal database, to be removed before turning project in.
-        printf("%d %d %s %c %d %lf %d\n", db[i]->itemnum, db[i]->category, db[i]->name, db[i]->size, db[i]->quantity, db[i]->cost, db[i]->onsale);
     }
-    printf("Number of items: %d\n", num_items);
-
-    fclose(in);
-    return 0;
 }
-
 // Takes in a string filename for overwriting from internal database.
 // Returns 0 upon successful file opening, -1 for failure.
 int write_db(char *filename) {
@@ -58,7 +51,7 @@ int write_db(char *filename) {
     // OPEN - DO - CLOSE: open a file, use file pointer to do file I/O, close the file.
     FILE *out;
     // Produces a new file if it doesn't exist, may remove this code...
-    if ((out = fopen(filename, "w")) == NULL) {
+    if ((out = fopen(filename, "w+")) == NULL) {
         fprintf(stderr, "Error: Can't open %s for write operation.\n", filename);
         return -1;
     }
