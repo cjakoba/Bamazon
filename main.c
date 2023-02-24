@@ -85,9 +85,9 @@ int main(int argc, char **argv) {
                 checkout(receipt);
             } else if (strcmp(sel, "exit") == 0) {
                 // Exit the program and save changes to the database
+                printf("TEST!\n");
                 write_db("test.txt");
-                b = 0;
-
+                return 0;
             }
         }
     } else if (strcmp(s, "shopper") == 0) {
