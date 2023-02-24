@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
                     item *cur = find_item_num(itemnum);
                     cur->quantity = quantity;
                 }
-            } else if (strcmp(sel, "save") == 0) {
+            } else if (strstr(sel, "save")) {
                 // Save the changes to the database
                 write_db("test.txt");
             } else if (strstr(sel, "quit")) {
@@ -73,18 +73,18 @@ int main(int argc, char **argv) {
             } else if (strstr(sel, "showitems")) {
                 // Show all items in the database
                 show_items();
-            } else if (strcmp(sel, "showcategory") == 0) {
+            } else if (strstr(sel, "showcategory")) {
                 // Show items of a specific category in the database
 
-            } else if (strcmp(sel, "showcategorycost") == 0) {
+            } else if (strstr(sel, "showcategorycost")) {
                 // Show items of a specific category with cost less than a given value
                 // Parameters: category, cost
                 // Example usage: showcategorycost Clothing 50.0
-            } else if (strcmp(sel, "showcategorysize") == 0) {
+            } else if (strstr(sel, "showcategorysize")) {
                 // Show items of a specific category with a specific size
                 // Parameters: category, size
                 // Example usage: showcategorysize Clothing L
-            } else if (strcmp(sel, "purchase") == 0) {
+            } else if (strstr(sel, "purchase")) {
                 // Purchase an item from the database
                 int itemnum;
                 scanf("%d", &itemnum);
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
                 fprintf(stderr, "Invalid command!\n");
             }
         }
-    } else if (strcmp(s, "shopper") == 0) {
+    } else if (strstr(s, "shopper")) {
         // Shopper commands here.
         printf("Shopper\n");
         return 0;
