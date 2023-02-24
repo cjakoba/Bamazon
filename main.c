@@ -53,12 +53,13 @@ int main(int argc, char **argv) {
                     item *cur = find_item_num(itemnum);
                     cur->cost = cost;
                 }
-            } else if (strcmp(sel, "updatequantity") == 0) {
+            } else if (strstr(sel, "updatequantity")) {
                 // Update the quantity of an item in the database
                 int itemnum, quantity;
-                scanf("%d %d", &itemnum, &quantity);
+                sscanf(sel, "updatequantity %d %d", &itemnum, &quantity);
+
                 if (find_item_num(itemnum) == 0) {
-                    printf("Invalid itemnum!/n");
+                    fprintf(stderr, "Invalid itemnum!\n");
                 } else {
                     item *cur = find_item_num(itemnum);
                     cur->quantity = quantity;
