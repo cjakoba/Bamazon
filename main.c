@@ -26,10 +26,13 @@ int main(int argc, char **argv) {
         exit(-1);
     }
 
+    // Begin infinite game loop
     int b = 1;
     while (b) {
+        // User command
         char sel[150];
 
+        // GAME INTRODUCTION
         printf("Welcome to Bamazon!\n");
         printf("Please choose from the following commands: \n");
 
@@ -51,9 +54,11 @@ int main(int argc, char **argv) {
         printf("purchase itemnum\n");
         printf("exit\n");
 
+        // Receive user input command, store in sel
         fflush(stdin);
         fgets(sel, 150, stdin);
 
+        // Adding items (bamazon user)
         if (strstr(sel, "add") && mode) {
             // Add an item to the database
             int itemnum, onsale, quantity;

@@ -44,6 +44,7 @@ int read_db(char *filename) {
         }
     }
 }
+
 // Takes in a string filename for overwriting from internal database.
 // Returns 0 upon successful file opening, -1 for failure.
 int write_db(char *filename) {
