@@ -26,6 +26,10 @@ int main(int argc, char **argv) {
         exit(-1);
     }
 
+    // Setting up shopping cart
+    item *cart[300];
+    int items_in_cart = 0;
+
     //bamazon user
     int b = 1;
     while (b) {
@@ -142,12 +146,19 @@ int main(int argc, char **argv) {
         } else if (strstr(sel, "purchase")) {
             // Purchase an item from the database
             int itemnum;
-            scanf("%d", &itemnum);
-            char *receipt[150];
-            checkout(receipt);
+            sscanf(sel, "purchase %d", &itemnum);
+            cart[items_in_cart++] = purchase_item(itemnum);
         } else if (strstr(sel, "exit")) {
             // Exit the program and save changes to the database
             write_db("test.txt");
+            char **receipt = malloc(sizeof(char *) * 300);
+            for (int i = 0; i < 300; i++) {
+                receipt[i] = malloc(sizeof(char) * 100);
+            }
+            int num_purchased = checkout(receipt);
+            for (int i = 0; i < num_purchased; i++) {
+                printf("%s\n", receipt[i]);
+            }
             return 0;
         } else {
             fprintf(stderr, "Invalid command!\n");
