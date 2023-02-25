@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
             }
         } else if (strstr(sel, "save") && mode) {
             // Save the changes to the database
-            write_db("test.txt");
+            write_db(argv[1]);
         } else if (strstr(sel, "quit") && mode) {
             // Quit the program without saving changes to the database
             return 0;
