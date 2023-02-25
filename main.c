@@ -14,9 +14,10 @@ int main(int argc, char **argv) {
 
     printf("Enter user name: ");
     char username[15];
-    int mode = 0;
     scanf("%s", username);
 
+    // Determine and set user mode beforehand
+    int mode = 0;
     if (strcmp(username, "bamazon") == 0) {
         mode = 1;
     } else if (strcmp(username, "shopper") == 0) {
@@ -26,12 +27,14 @@ int main(int argc, char **argv) {
     }
 
     //bamazon user
-    int bamazon_user = strcmp(username, "bamazon");
     int b = 1;
     while (b) {
         char sel[150];
+
         printf("Welcome to Bamazon!\n");
         printf("Please choose from the following commands: \n");
+
+        // Print this only for the bamazon user.
         if (mode) {
             printf("add itemnum itemcategory itemname size quantity cost onsale\n");
             printf("delete itemnum\n");
@@ -40,6 +43,8 @@ int main(int argc, char **argv) {
             printf("save\n");
             printf("quit\n");
         }
+
+        // For all users
         printf("showitems\n");
         printf("showcategory category\n");
         printf("showcategorycost category cost\n");
@@ -100,7 +105,16 @@ int main(int argc, char **argv) {
             show_items();
         } else if (strstr(sel, "showcategory")) {
             // Show items of a specific category in the database
+            char *type;
+            sscanf(sel, "showcategory %s", type);
 
+            item *categories[10];
+            int cat = get_category(categories, str_to_category(type));
+            char print_items[100];
+            for (int i = 0; i < cat; i++) {
+                sprint_item(print_items, categories[i]);
+                printf("%s\n", print_items);
+            }
         } else if (strstr(sel, "showcategorycost")) {
             // Show items of a specific category with cost less than a given value
             // Parameters: category, cost
@@ -123,9 +137,4 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Invalid command!\n");
         }
     }
-
-    // Otherwise user input is invalid
-    printf("Invalid user!\n");
-    return 0;
 }
-
