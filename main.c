@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
 
     // Exit early file the file does not exist.
     if (try_reading == -1) {
-        fprintf(stderr, "File not found!");
+        printf("File not found!");
         exit(-1);
     }
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
         mode = 1;
     } else if (strcmp(username, "shopper") == 0) {
     } else {
-        fprintf(stderr, "Invalid user!");
+        printf("Invalid user!\n");
         exit(-1);
     }
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
 
             // All format specifiers must be answered for in correct format order, 7 total.
             if (num_arg != 7) {
-                fprintf(stderr, "Invalid add command!\n");
+                printf("Invalid add command!\n");
             }
 
             add_item(itemnum, category, name, size, quantity, cost, onsale);
@@ -75,9 +75,9 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "delete %d", &itemnum);
 
             if (num_arg != 1) {
-                fprintf(stderr, "Invalid delete command!\n");
+                printf("Invalid delete command!\n");
             } else if (delete_item(itemnum) == 0) {
-                fprintf(stderr, "Invalid itemnum!\n");
+                printf("Invalid itemnum!\n");
             }
 
         } else if (strstr(sel, "updatecost") && mode) {
@@ -87,9 +87,9 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "updatecost %d %lf", &itemnum, &cost);
 
             if (num_arg != 2) {
-                fprintf(stderr, "Invalid updatecost command!\n");
+                printf("Invalid updatecost command!\n");
             } else if (find_item_num(itemnum) == NULL) {
-                fprintf(stderr, "Invalid itemnum!\n");
+                printf("Invalid itemnum!\n");
             } else {
                 item *cur = find_item_num(itemnum);
                 cur->cost = cost;
@@ -101,9 +101,9 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "updatequantity %d %d", &itemnum, &quantity);
 
             if (num_arg != 2) {
-                fprintf(stderr, "Invalid updatequantity command!\n");
+                printf("Invalid updatequantity command!\n");
             } else if (find_item_num(itemnum) == 0) {
-                fprintf(stderr, "Invalid itemnum!\n");
+                printf("Invalid itemnum!\n");
             } else {
                 item *cur = find_item_num(itemnum);
                 cur->quantity = quantity;
@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "showcategory %s", type);
 
             if (num_arg != 1) {
-                fprintf(stderr, "Invalid showcategory command!\n");
+                printf("Invalid showcategory command!\n");
             } else {
                 item *categories[300];
                 int cat = get_category(categories, str_to_category(type));
@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "showcategorycost %s %lf", cat, &price_limit);
 
             if (num_arg != 2) {
-                fprintf(stderr, "Invalid showcategorycost command!\n");
+                printf("Invalid showcategorycost command!\n");
             } else {
                 item *categories[300];
                 int count = get_category_cost(categories, str_to_category(cat), price_limit);
@@ -157,7 +157,7 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "showcategorysize %s %c", cat, &size);
 
             if (num_arg != 2) {
-                fprintf(stderr, "Invalid showcategorysize command!\n");
+                printf("Invalid showcategorysize command!\n");
             } else {
                 item *categories[300];
                 int count = get_category_size(categories, str_to_category(cat), size);
@@ -173,9 +173,9 @@ int main(int argc, char **argv) {
             int itemnum;
             int num_arg = sscanf(sel, "purchase %d", &itemnum);
             if (num_arg != 1) {
-                fprintf(stderr, "Invalid showcategorysize command!\n");
+                printf("Invalid showcategorysize command!\n");
             } else if (purchase_item(itemnum) == 0) {
-                fprintf(stderr, "Invalid itemnum!\n");
+                printf("Invalid itemnum!\n");
             }
 
         } else if (strstr(sel, "exit")) {
@@ -192,7 +192,7 @@ int main(int argc, char **argv) {
             return 0;
 
         } else {
-            fprintf(stderr, "Invalid command!\n");
+            printf("Invalid command!\n");
         }
     }
 }
