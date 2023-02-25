@@ -131,6 +131,12 @@ item *add_item(int itemnum, char *category, char *name, char size, int quantity,
         }
     }
 
+    // Incorrect category
+    if (type == -1) {
+        fprintf(stderr, "Invalid category!\n");
+        return 0;
+    }
+
     // When an item with itemnum already exists in the database, just update it
     item *selected = find_item_num(itemnum);
     if (selected != NULL) {
