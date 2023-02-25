@@ -185,7 +185,7 @@ int main(int argc, char **argv) {
 
         } else if (strstr(sel, "exit")) {
             // Exit the program and save changes to the database
-            write_db("test.txt");
+            write_db(argv[1]);
             char **receipt = malloc(sizeof(char *) * 300);
             for (int i = 0; i < 300; i++) {
                 receipt[i] = malloc(sizeof(char) * 100);
