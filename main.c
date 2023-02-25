@@ -116,6 +116,9 @@ int main(int argc, char **argv) {
                 printf("%s\n", print_items);
             }
         } else if (strstr(sel, "showcategorycost")) {
+            char *cat;
+            double price_limit;
+            sscanf(sel, "showcategorycost %s %lf", cat, &price_limit);
             // Show items of a specific category with cost less than a given value
             // Parameters: category, cost
             // Example usage: showcategorycost Clothing 50.0
