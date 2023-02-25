@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
         } else if (strstr(sel, "showitems")) {
             // Show all items in the database
             show_items();
-        } else if (strstr(sel, "showcategory") && strstr(sel, "cost") == NULL) {
+        } else if (strstr(sel, "showcategory") && strstr(sel, "cost") == NULL && strstr(sel, "size") == NULL) {
             // Show items of a specific category in the database
             char *type;
             sscanf(sel, "showcategory %s", type);
@@ -127,13 +127,18 @@ int main(int argc, char **argv) {
                 sprint_item(print_items, categories[i]);
                 printf("%s\n", print_items);
             }
-            // Show items of a specific category with cost less than a given value
-            // Parameters: category, cost
-            // Example usage: showcategorycost Clothing 50.0
         } else if (strstr(sel, "showcategorysize")) {
-            // Show items of a specific category with a specific size
-            // Parameters: category, size
-            // Example usage: showcategorysize Clothing L
+            char cat[30];
+            char size;
+            sscanf(sel, "showcategorysize %s %c", cat, &size);
+
+            item *categories[10];
+            int count = get_category_size(categories, str_to_category(cat), size);
+            char print_items[100];
+            for (int i = 0; i < count; i++) {
+                sprint_item(print_items, categories[i]);
+                printf("%s\n", print_items);
+            }
         } else if (strstr(sel, "purchase")) {
             // Purchase an item from the database
             int itemnum;

@@ -169,7 +169,14 @@ int get_category(item **items, category c) {
 }
 
 int get_category_size(item **items, category c, char size) {
-    return 0;
+    int count = 0;
+    for (int i = 0; i < num_items; i++) {
+        // Filter by category and size
+        if (db[i]->category == c && db[i]->size == size) {
+            items[count++] = db[i];
+        }
+    }
+    return count;
 }
 
 // Selects all items matching a specific category, costing less than cost, and fills in the item items array.
