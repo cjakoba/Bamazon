@@ -26,11 +26,6 @@ int main(int argc, char **argv) {
         exit(-1);
     }
 
-    // Setting up shopping cart
-    item *cart[300];
-    int items_in_cart = 0;
-
-    //bamazon user
     int b = 1;
     while (b) {
         char sel[150];
@@ -124,7 +119,7 @@ int main(int argc, char **argv) {
             show_items();
         } else if (strstr(sel, "showcategory") && strstr(sel, "cost") == NULL && strstr(sel, "size") == NULL) {
             // Show items of a specific category in the database
-            char *type;
+            char type[30];
             int num_arg = sscanf(sel, "showcategory %s", type);
 
             if (num_arg != 1) {
@@ -179,8 +174,8 @@ int main(int argc, char **argv) {
             int num_arg = sscanf(sel, "purchase %d", &itemnum);
             if (num_arg != 1) {
                 fprintf(stderr, "Invalid showcategorysize command!\n");
-            } else {
-                cart[items_in_cart++] = purchase_item(itemnum);
+            } else if (purchase_item(itemnum) == 0) {
+                fprintf(stderr, "Invalid itemnum!\n");
             }
 
         } else if (strstr(sel, "exit")) {
